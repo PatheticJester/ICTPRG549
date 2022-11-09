@@ -16,7 +16,7 @@ import javax.swing.border.EmptyBorder;
 
 public class GameGUI extends JFrame implements ActionListener{
 	// The main class calling an instance of frame
-	public static void main(String[] args) {
+	public static void frame() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -31,6 +32,7 @@ public class Main extends JFrame implements ActionListener{
     JTextField Pass = new JTextField("");
     JButton btnLogin = new JButton("Login");
     JButton btnRegister = new JButton("Register");
+    SQLHandle Sqlconnect = new SQLHandle();
 
     public Main() {
         // Main sets the propertites for the frame, adds elements and calls the refresh function that sets up all the default langages and fonts.
@@ -66,11 +68,16 @@ public class Main extends JFrame implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e){
             if(e.getSource()==btnLogin){
-                SQLHandle.sqlrequest();
+                if(Sqlconnect.sqlrequest(User.getText(), Pass.getText()) == true){
+                    GameGUI.frame();
+                    dispose();
+                }else{
+                    JOptionPane.showMessageDialog(null, "Wrong User or Password", "Error:", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
             
             if(e.getSource()==btnRegister){
-                SQLHandle.sqlinsert(UserL.getText(), PassL.getText());
+                Sqlconnect.sqlinsert(User.getText(), Pass.getText());
             }
     }
 }
