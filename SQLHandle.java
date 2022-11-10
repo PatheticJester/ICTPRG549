@@ -41,17 +41,38 @@ public class SQLHandle {
         }
     }
 
-    public void sqlinsert(String User, String Pass){
+    public boolean sqlinsert(String User, String Pass){
         Random rand = new Random();
         int rand_int1 = rand.nextInt(1000);
         query = String.format("INSERT INTO [dbo].[User] (UID, Username, Password) VALUES(%d, '%s', '%s') INSERT INTO [dbo].[Game] (GID) VALUES(%d)", rand_int1, User, Pass, rand_int1);
+        if(sqlcheck(User) == true){
+          return(false);
+        }else{
+            try{
+                pst = connection.prepareStatement(query);
+                pst.execute();
+                return(true);
+            } catch(SQLException f){
+                System.out.println("Data entry failed");
+                f.printStackTrace();
+                return(false);
+            }
+        }
+    }
+
+    public boolean sqlcheck(String User){
+        query = String.format("SELECT * FROM [dbo].[User] WHERE Username='%s'", User);
         try{
             pst = connection.prepareStatement(query);
-            pst.execute();
-            return;
+            ResultSet rs = pst.executeQuery();
+            rs.next();
+            if(User.equals(rs.getString("Username"))){
+                return(true);
+            } else{
+                return(false);
+            }
         } catch(SQLException f){
-            System.out.println("Data entry failed");
-            f.printStackTrace();
+            return(false);
         }
     }
 }
