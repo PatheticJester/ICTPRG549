@@ -77,7 +77,11 @@ public class Main extends JFrame implements ActionListener{
             }
             
             if(e.getSource()==btnRegister){
-                Sqlconnect.sqlinsert(User.getText(), Pass.getText());
+                if(Sqlconnect.sqlinsert(User.getText(), Pass.getText()) == true){
+                    JOptionPane.showMessageDialog(null, "Registered: You can login", "Success:", JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Username already exits", "Error:", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
     }
 }
