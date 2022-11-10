@@ -44,10 +44,10 @@ public class SQLHandle {
     public boolean sqlinsert(String User, String Pass){
         Random rand = new Random();
         int rand_int1 = rand.nextInt(1000);
-        query = String.format("INSERT INTO [dbo].[User] (UID, Username, Password) VALUES(%d, '%s', '%s') INSERT INTO [dbo].[Game] (GID) VALUES(%d)", rand_int1, User, Pass, rand_int1);
         if(sqlcheck(User) == true){
           return(false);
         }else{
+            query = String.format("INSERT INTO [dbo].[User] (UID, Username, Password) VALUES(%d, '%s', '%s') INSERT INTO [dbo].[Game] (GID) VALUES(%d)", rand_int1, User, Pass, rand_int1);
             try{
                 pst = connection.prepareStatement(query);
                 pst.execute();
@@ -65,13 +65,13 @@ public class SQLHandle {
         try{
             pst = connection.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
-            rs.next();
-            if(User.equals(rs.getString("Username"))){
+            if(rs.next()){
                 return(true);
             } else{
                 return(false);
             }
         } catch(SQLException f){
+            System.out.println(f);
             return(false);
         }
     }
