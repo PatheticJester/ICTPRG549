@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
-// Save below code for requesting a users info based on primary key
-// query = "SELECT [UID],[Username],[Password],[GID],[Highscore] FROM [dbo].[User] INNER JOIN [dbo].[Game] ON [User].UID=[Game].GID";
 
 public class SQLHandle {
     static Connection connection;
@@ -62,6 +60,22 @@ public class SQLHandle {
 
     public boolean sqlcheck(String User){
         query = String.format("SELECT * FROM [dbo].[User] WHERE Username='%s'", User);
+        try{
+            pst = connection.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                return(true);
+            } else{
+                return(false);
+            }
+        } catch(SQLException f){
+            System.out.println(f);
+            return(false);
+        }
+    }
+
+    public static boolean sqlout(String User, int score){
+        query = "SELECT [UID],[Username],[Password],[GID],[Highscore] FROM [dbo].[User] INNER JOIN [dbo].[Game] ON [User].UID=[Game].GID";
         try{
             pst = connection.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
