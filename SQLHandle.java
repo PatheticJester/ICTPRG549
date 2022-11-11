@@ -4,14 +4,29 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class SQLHandle {
     static Connection connection;
     static String query;
     static PreparedStatement pst;
-    String connectionString;
+    static String connectionString;
 
+
+    /* Main for testing
+    public static void main(String[] args) {
+        try{
+            connectionString = "jdbc:sqlserver://DESKTOP-45VAQ6U:1433;DatabaseName=ICTPRG549;integratedSecurity=true;trustServerCertificate=true";
+            connection = DriverManager.getConnection(connectionString);
+            sqlscore();
+        }   catch (SQLException f){
+            System.out.println("Error");
+            f.printStackTrace();
+        }
+    } */
+    
     public SQLHandle(){
         // This method connects to the sql server by creating a connectioning string then using the wonderful driver manager. If there is an error it catches it.
         connectionString = "jdbc:sqlserver://DESKTOP-45VAQ6U:1433;DatabaseName=ICTPRG549;integratedSecurity=true;trustServerCertificate=true";
@@ -24,6 +39,7 @@ public class SQLHandle {
     }
 
     public boolean sqlrequest(String User, String Pass){
+        // Request the username and password entered if it's a match return true if it is not correct or no such user exists return false.
         query = String.format("SELECT * FROM [dbo].[User] WHERE Username='%s' AND Password='%s'", User, Pass);
         try{
             pst = connection.prepareStatement(query);
@@ -40,6 +56,7 @@ public class SQLHandle {
     }
 
     public boolean sqlinsert(String User, String Pass){
+        // Insert user into the system
         Random rand = new Random();
         int rand_int1 = rand.nextInt(1000);
         if(sqlcheck(User) == true){
@@ -59,6 +76,7 @@ public class SQLHandle {
     }
 
     public boolean sqlcheck(String User){
+        // Check the username doesn't already exist
         query = String.format("SELECT * FROM [dbo].[User] WHERE Username='%s'", User);
         try{
             pst = connection.prepareStatement(query);
@@ -75,6 +93,7 @@ public class SQLHandle {
     }
 
     public static boolean sqlout(String User, int score){
+        // Print out the user's high score this needs more work
         query = "SELECT [UID],[Username],[Password],[GID],[Highscore] FROM [dbo].[User] INNER JOIN [dbo].[Game] ON [User].UID=[Game].GID";
         try{
             pst = connection.prepareStatement(query);
@@ -87,6 +106,24 @@ public class SQLHandle {
         } catch(SQLException f){
             System.out.println(f);
             return(false);
+        }
+    }
+
+    public static int sqlscore(){
+        // Returns the high score
+        query = "SELECT [Highscore] FROM [dbo].[User] INNER JOIN [dbo].[Game] ON [User].UID=[Game].GID WHERE UID=GID";
+        try{
+            ArrayList<Integer> scores = new ArrayList<Integer>();
+            pst = connection.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+               scores.add(rs.getInt("Highscore"));
+            }
+            int Highscore = Collections.max(scores);
+            return(Highscore);
+        } catch(SQLException f){
+            System.out.println(f);
+            return 0;
         }
     }
 }
