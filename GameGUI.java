@@ -36,6 +36,7 @@ public class GameGUI extends JFrame implements ActionListener{
 	JLabel OutcomeL = new JLabel("");
 	JLabel Coin1L = new JLabel("");
 	JLabel Coin2L = new JLabel("");
+	JLabel Highscore = new JLabel("");
 	JLabel Score = new JLabel("");
 	JLabel ScoreNumber = new JLabel("");
 	JMenu Settings = new JMenu("");
@@ -59,6 +60,9 @@ public class GameGUI extends JFrame implements ActionListener{
 		btnCoinAction.setBounds(250, 350, 100, 25);
 		btnCoinAction.addActionListener(this);
 		contentPane.add(btnCoinAction);
+
+		Highscore.setBounds(550, 150, 150, 30);
+		contentPane.add(Highscore);
 
 		Score.setBounds(550, 250, 150, 30);
 		contentPane.add(Score);
@@ -99,6 +103,9 @@ public class GameGUI extends JFrame implements ActionListener{
 		// This function refreshes the text parts of the frame dependant on what the variables have been set too in the Lang class.
 		btnCoinAction.setText(Current.btnCoinAction);
 		btnCoinAction.setFont(Current.Font);
+
+		Highscore.setText(Current.Highscore);
+		Highscore.setFont(Current.Font);
 
 		OutcomeL.setText("");
 		OutcomeL.setFont(Current.Font);
