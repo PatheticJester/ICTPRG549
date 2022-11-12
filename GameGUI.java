@@ -160,8 +160,8 @@ public class GameGUI extends JFrame implements ActionListener{
 				Coin1L.setText(Current.Coin1L[1]);
 				Coin2L.setText(Current.Coin2L[1]);
 				OutcomeL.setText(Current.OutcomeL[0]);
-				Sqlconnect.sqlupdateuser(User, Count);
 				ScoreNumber.setText(Score);
+				Sqlconnect.sqlupdateuser(User, Count);
 			} else if(Coin1.coin == 1)
 			{
 				int pesudocoin = new Random().nextInt(2);

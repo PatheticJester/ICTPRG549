@@ -29,8 +29,8 @@ public class SQLHandle {
             System.out.println("Error");
             f.printStackTrace();
         }
-    }
-    */
+    }*/
+    
     public SQLHandle(){
         // This method connects to the sql server by creating a connectioning string then using the wonderful driver manager. If there is an error it catches it.
         connectionString = "jdbc:sqlserver://DESKTOP-45VAQ6U:1433;DatabaseName=ICTPRG549;integratedSecurity=true;trustServerCertificate=true";
@@ -40,7 +40,7 @@ public class SQLHandle {
             System.out.println("Error");
             f.printStackTrace();
         }
-    } 
+    }
 
     public boolean sqlcheckuserexists(String User, String Pass){
         // Request the username and password entered if it's a match return true if it is not correct or no such user exists return false.
@@ -96,29 +96,29 @@ public class SQLHandle {
         }
     }
 
-    public boolean sqlupdateuser(String User, int Score){
-        // Sqlupdate user updates the users highscore
+    public void sqlupdateuser(String User, int Score){
+        // Sqlupdateuser updates the users highscore
         query = String.format("SELECT [Highscore] FROM [dbo].[User] INNER JOIN [dbo].[Game] ON [User].UID=[Game].GID WHERE Username = '%s'",User);
         try{
             pst = connection.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
             rs.next();
             if(rs.getInt("Highscore") > Score){
-                return(false);
+                return;
             }
         } catch(SQLException f){
             System.out.println(f);
-            return(false);
+            return;
         }
 
         query = String.format("UPDATE [Game] set Highscore = '%d' FROM [dbo].[User] INNER JOIN [dbo].[Game] ON [User].UID=[Game].GID WHERE Username = '%s'", Score, User); 
         try{
             pst = connection.prepareStatement(query);
             pst.execute();
-            return(true);
+            return;
         } catch(SQLException f){
             System.out.println(f);
-            return(false);
+            return;
         }     
     }
 
@@ -140,13 +140,17 @@ public class SQLHandle {
         }
     }
 
-    public static HashMap<String, Integer> sqlleaderboard(){
-        // Returns the high score
+    public static LinkedHashMap<String, Integer> sqlleaderboard(){
+        /* Creates a HashMap, A linkedHashMap and an array list. The hashmap is first used to be populated with the Username and correlating highscore.
+         * The array is used next to obtain every value (score) within Leaderboard. The scorelist is then sorted into highest to lowest.
+         * Then for every number (score) within scroelist and for every entry within Leader board it checks to see if the leaderboards score is
+         * equal to the interger number. If it is then this Entry is placed into the Linkedhashmap along with the number (score).
+        */
         query = "SELECT [Username], [Highscore] FROM [dbo].[User] INNER JOIN [dbo].[Game] ON [User].UID=[Game].GID";
         try{
             HashMap<String, Integer> Leaderboard = new HashMap<>();
-            LinkedHashMap<String, Integer> LeaderboardSorted = new LinkedHashMap<>();
             ArrayList<Integer> scorelist = new ArrayList<>();
+            LinkedHashMap<String, Integer> LeaderboardSorted = new LinkedHashMap<>();
             pst = connection.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
             while(rs.next()){
@@ -163,8 +167,7 @@ public class SQLHandle {
                     }
                 }
             }
-            System.out.println(LeaderboardSorted);
-            return(Leaderboard);
+            return(LeaderboardSorted);
         } catch(SQLException f){
             System.out.println(f);
             return(null);
