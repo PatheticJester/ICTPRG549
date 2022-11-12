@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class SQLHandle {
     static Connection connection;
@@ -15,19 +19,19 @@ public class SQLHandle {
     static String connectionString;
 
 
-    /* Main for testing
+    // Main for testing
     public static void main(String[] args) {
         try{
             connectionString = "jdbc:sqlserver://DESKTOP-45VAQ6U:1433;DatabaseName=ICTPRG549;integratedSecurity=true;trustServerCertificate=true";
             connection = DriverManager.getConnection(connectionString);
-            sqlscore();
+            sqlleaderboard();
         }   catch (SQLException f){
             System.out.println("Error");
             f.printStackTrace();
         }
-    } */
+    }
     
-    public SQLHandle(){
+    /*public SQLHandle(){
         // This method connects to the sql server by creating a connectioning string then using the wonderful driver manager. If there is an error it catches it.
         connectionString = "jdbc:sqlserver://DESKTOP-45VAQ6U:1433;DatabaseName=ICTPRG549;integratedSecurity=true;trustServerCertificate=true";
         try{
@@ -36,7 +40,7 @@ public class SQLHandle {
             System.out.println("Error");
             f.printStackTrace();
         }
-    }
+    } */
 
     public boolean sqlcheckuserexists(String User, String Pass){
         // Request the username and password entered if it's a match return true if it is not correct or no such user exists return false.
@@ -133,6 +137,37 @@ public class SQLHandle {
         } catch(SQLException f){
             System.out.println(f);
             return 0;
+        }
+    }
+
+    public static HashMap<String, Integer> sqlleaderboard(){
+        // Returns the high score
+        query = "SELECT [Username], [Highscore] FROM [dbo].[User] INNER JOIN [dbo].[Game] ON [User].UID=[Game].GID";
+        try{
+            HashMap<String, Integer> Leaderboard = new HashMap<>();
+            LinkedHashMap<String, Integer> LeaderboardSorted = new LinkedHashMap<>();
+            ArrayList<Integer> scorelist = new ArrayList<>();
+            pst = connection.prepareStatement(query);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+                Leaderboard.put(rs.getString("Username"),rs.getInt("Highscore"));
+            }
+            for (Map.Entry<String, Integer> entry :Leaderboard.entrySet()) {
+                scorelist.add(entry.getValue());
+            }
+            Collections.sort(scorelist); 
+            for (int num : scorelist) {
+                for (Entry<String, Integer> entry : Leaderboard.entrySet()) {
+                    if (entry.getValue().equals(num)) {
+                        LeaderboardSorted.put(entry.getKey(), num);
+                    }
+                }
+            }
+            System.out.println(LeaderboardSorted);
+            return(Leaderboard);
+        } catch(SQLException f){
+            System.out.println(f);
+            return(null);
         }
     }
 }
