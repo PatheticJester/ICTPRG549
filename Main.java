@@ -67,9 +67,11 @@ public class Main extends JFrame implements ActionListener{
     }
         @Override
         public void actionPerformed(ActionEvent e){
+            String UserS = User.getText();
+            String PassS = Pass.getText();
             if(e.getSource()==btnLogin){
-                if(Sqlconnect.sqlrequest(User.getText(), Pass.getText()) == true){
-                    GameGUI.frame();
+                if(Sqlconnect.sqlcheckuserexists(UserS, PassS) == true){
+                    GameGUI.frame(User.getText());
                     dispose();
                 }else{
                     JOptionPane.showMessageDialog(null, "Wrong User or Password", "Error:", JOptionPane.INFORMATION_MESSAGE);
@@ -77,10 +79,10 @@ public class Main extends JFrame implements ActionListener{
             }
             
             if(e.getSource()==btnRegister){
-                if(Sqlconnect.sqlinsert(User.getText(), Pass.getText()) == true){
+                if((!(UserS.equals("") || PassS.equals(""))) && Sqlconnect.sqlregisteruser(UserS, PassS) == true){
                     JOptionPane.showMessageDialog(null, "Registered: You can login", "Success:", JOptionPane.INFORMATION_MESSAGE);
                 }else{
-                    JOptionPane.showMessageDialog(null, "Username already exits", "Error:", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Username already exists", "Error:", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
     }

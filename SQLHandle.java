@@ -38,7 +38,7 @@ public class SQLHandle {
         }
     }
 
-    public boolean sqlrequest(String User, String Pass){
+    public boolean sqlcheckuserexists(String User, String Pass){
         // Request the username and password entered if it's a match return true if it is not correct or no such user exists return false.
         query = String.format("SELECT * FROM [dbo].[User] WHERE Username='%s' AND Password='%s'", User, Pass);
         try{
@@ -55,11 +55,11 @@ public class SQLHandle {
         }
     }
 
-    public boolean sqlinsert(String User, String Pass){
+    public boolean sqlregisteruser(String User, String Pass){
         // Insert user into the system
         Random rand = new Random();
         int rand_int1 = rand.nextInt(1000);
-        if(sqlcheck(User) == true){
+        if(sqlcheckuser(User) == true){
           return(false);
         }else{
             query = String.format("INSERT INTO [dbo].[User] (UID, Username, Password) VALUES(%d, '%s', '%s') INSERT INTO [dbo].[Game] (GID) VALUES(%d)", rand_int1, User, Pass, rand_int1);
@@ -75,7 +75,7 @@ public class SQLHandle {
         }
     }
 
-    public boolean sqlcheck(String User){
+    public boolean sqlcheckuser(String User){
         // Check the username doesn't already exist
         query = String.format("SELECT * FROM [dbo].[User] WHERE Username='%s'", User);
         try{
@@ -92,24 +92,33 @@ public class SQLHandle {
         }
     }
 
-    public static boolean sqlout(String User, int score){
-        // Print out the user's high score this needs more work
-        query = "SELECT [UID],[Username],[Password],[GID],[Highscore] FROM [dbo].[User] INNER JOIN [dbo].[Game] ON [User].UID=[Game].GID";
+    public boolean sqlupdateuser(String User, int Score){
+        // Sqlupdate user updates the users highscore
+        query = String.format("SELECT [Highscore] FROM [dbo].[User] INNER JOIN [dbo].[Game] ON [User].UID=[Game].GID WHERE Username = '%s'",User);
         try{
             pst = connection.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
-            if(rs.next()){
-                return(true);
-            } else{
+            rs.next();
+            if(rs.getInt("Highscore") > Score){
                 return(false);
             }
         } catch(SQLException f){
             System.out.println(f);
             return(false);
         }
+
+        query = String.format("UPDATE [Game] set Highscore = '%d' FROM [dbo].[User] INNER JOIN [dbo].[Game] ON [User].UID=[Game].GID WHERE Username = '%s'", Score, User); 
+        try{
+            pst = connection.prepareStatement(query);
+            pst.execute();
+            return(true);
+        } catch(SQLException f){
+            System.out.println(f);
+            return(false);
+        }     
     }
 
-    public static int sqlscore(){
+    public static int sqlselectscore(){
         // Returns the high score
         query = "SELECT [Highscore] FROM [dbo].[User] INNER JOIN [dbo].[Game] ON [User].UID=[Game].GID WHERE UID=GID";
         try{

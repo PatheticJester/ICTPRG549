@@ -11,8 +11,4 @@ public class Coin{
         int coin2 = new Random().nextInt(2);
         coin = coin1 + coin2;
     }
-
-    public void Resultout(String user, int runningscore){
-        SQLHandle.sqlout(user, runningscore);
-    }
 }

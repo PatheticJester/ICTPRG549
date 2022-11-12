@@ -15,8 +15,10 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 public class GameGUI extends JFrame implements ActionListener{
+	static String User;
 	// The main class calling an instance of frame
-	public static void frame() {
+	public static void frame(String LoggedUser) {
+		User = LoggedUser;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -46,6 +48,7 @@ public class GameGUI extends JFrame implements ActionListener{
 	JCheckBoxMenuItem Thaichck = new JCheckBoxMenuItem("");
 	JCheckBoxMenuItem Mandarinchck = new JCheckBoxMenuItem("");
 	int defcolour = 1;
+	SQLHandle Sqlconnect = new SQLHandle();
 
 	public GameGUI() {
 		// Main sets the propertites for the frame, adds elements and calls the refresh function that sets up all the default langages and fonts.
@@ -147,19 +150,19 @@ public class GameGUI extends JFrame implements ActionListener{
 		 * If it detects the source is one of the menu buttons it calls the relevant function in class Lang and then refreshes all the elements.
 		 * It also keeps track of the score by having a constant count that increseas, gets cast to string and then displayed.
 		 */
-		Coin Toss = new Coin();
+		Coin Coin1 = new Coin();
 		if(e.getSource()==btnCoinAction){
 			OutcomeL.setBounds(270, 300, 100, 30);
-			if(Toss.coin == 2)
+			if(Coin1.coin == 2)
 			{
 				Count++;
 				String Score = Integer.toString(Count);
 				Coin1L.setText(Current.Coin1L[1]);
 				Coin2L.setText(Current.Coin2L[1]);
 				OutcomeL.setText(Current.OutcomeL[0]);
-				Toss.Resultout("Win", Count);
+				Sqlconnect.sqlupdateuser(User, Count);
 				ScoreNumber.setText(Score);
-			} else if(Toss.coin == 1)
+			} else if(Coin1.coin == 1)
 			{
 				int pesudocoin = new Random().nextInt(2);
 				if(pesudocoin == 0){
@@ -176,7 +179,6 @@ public class GameGUI extends JFrame implements ActionListener{
 				Coin1L.setText(Current.Coin1L[2]);
 				Coin2L.setText(Current.Coin2L[2]);
 				OutcomeL.setText(Current.OutcomeL[2]);
-				Toss.Resultout("Lose", Count);
 			}
 		}
 
