@@ -20,7 +20,7 @@ public class SQLHandle {
 
 
     // Main for testing
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         try{
             connectionString = "jdbc:sqlserver://DESKTOP-45VAQ6U:1433;DatabaseName=ICTPRG549;integratedSecurity=true;trustServerCertificate=true";
             connection = DriverManager.getConnection(connectionString);
@@ -30,8 +30,8 @@ public class SQLHandle {
             f.printStackTrace();
         }
     }
-    
-    /*public SQLHandle(){
+    */
+    public SQLHandle(){
         // This method connects to the sql server by creating a connectioning string then using the wonderful driver manager. If there is an error it catches it.
         connectionString = "jdbc:sqlserver://DESKTOP-45VAQ6U:1433;DatabaseName=ICTPRG549;integratedSecurity=true;trustServerCertificate=true";
         try{
@@ -40,7 +40,7 @@ public class SQLHandle {
             System.out.println("Error");
             f.printStackTrace();
         }
-    } */
+    } 
 
     public boolean sqlcheckuserexists(String User, String Pass){
         // Request the username and password entered if it's a match return true if it is not correct or no such user exists return false.
@@ -152,10 +152,10 @@ public class SQLHandle {
             while(rs.next()){
                 Leaderboard.put(rs.getString("Username"),rs.getInt("Highscore"));
             }
-            for (Map.Entry<String, Integer> entry :Leaderboard.entrySet()) {
+            for (Map.Entry<String, Integer> entry : Leaderboard.entrySet()) {
                 scorelist.add(entry.getValue());
             }
-            Collections.sort(scorelist); 
+            Collections.sort(scorelist, Collections.reverseOrder()); 
             for (int num : scorelist) {
                 for (Entry<String, Integer> entry : Leaderboard.entrySet()) {
                     if (entry.getValue().equals(num)) {
