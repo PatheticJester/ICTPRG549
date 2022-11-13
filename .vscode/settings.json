@@ -1,6 +1,14 @@
 {
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
-        "mssql-jdbc-11.2.0.jre18.jar"
+        "mssql-jdbc-11.2.0.jre18.jar",
+        "javafx-sdk-19/lib/javafx.base.jar",
+        "javafx-sdk-19/lib/javafx.controls.jar",
+        "javafx-sdk-19/lib/javafx.fxml.jar",
+        "javafx-sdk-19/lib/javafx.graphics.jar",
+        "javafx-sdk-19/lib/javafx.media.jar",
+        "javafx-sdk-19/lib/javafx.swing.jar",
+        "javafx-sdk-19/lib/javafx.web.jar",
+        "javafx-sdk-19/lib/javafx-swt.jar"
     ]
 }

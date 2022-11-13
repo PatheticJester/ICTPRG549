@@ -158,6 +158,8 @@ public class SQLHandle {
             HashMap<String, Integer> Leaderboard = new HashMap<>();
             ArrayList<Integer> scorelist = new ArrayList<>();
             LinkedHashMap<String, Integer> LeaderboardSorted = new LinkedHashMap<>();
+            Object[] ObjectArray;
+            String[] StringArray;
             pst = connection.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
             while(rs.next()){
@@ -174,10 +176,10 @@ public class SQLHandle {
                     }
                 }
             }
-            Object[] ObjectArray = LeaderboardSorted.entrySet().toArray();
-            String[] StringArray = new String[ObjectArray.length];
-            for(Object x : ObjectArray){
-                StringArray[Arrays.asList(ObjectArray).indexOf(x)] = x.toString();
+            ObjectArray = LeaderboardSorted.entrySet().toArray();
+            StringArray = new String[ObjectArray.length];
+            for(Object Score : ObjectArray){
+                StringArray[Arrays.asList(ObjectArray).indexOf(Score)] = Score.toString();
             }
             return(StringArray);
         } catch(SQLException f){
