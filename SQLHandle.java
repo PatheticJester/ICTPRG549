@@ -160,6 +160,7 @@ public class SQLHandle {
             LinkedHashMap<String, Integer> LeaderboardSorted = new LinkedHashMap<>();
             Object[] ObjectArray;
             String[] StringArray;
+            int x = 0;
             pst = connection.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
             while(rs.next()){
@@ -179,7 +180,11 @@ public class SQLHandle {
             ObjectArray = LeaderboardSorted.entrySet().toArray();
             StringArray = new String[ObjectArray.length];
             for(Object Score : ObjectArray){
+                if(x >= 10){
+                    break;
+                }
                 StringArray[Arrays.asList(ObjectArray).indexOf(Score)] = Score.toString();
+                x++;
             }
             return(StringArray);
         } catch(SQLException f){
