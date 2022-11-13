@@ -9,9 +9,11 @@ import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 public class GameGUI extends JFrame implements ActionListener{
@@ -41,6 +43,7 @@ public class GameGUI extends JFrame implements ActionListener{
 	JLabel Highscore = new JLabel("");
 	JLabel Score = new JLabel("");
 	JLabel ScoreNumber = new JLabel("");
+	JLabel LeaderboardL = new JLabel("");
 	JMenu Settings = new JMenu("");
 	JCheckBoxMenuItem Darkchck = new JCheckBoxMenuItem("");
 	JMenu Langmenu = new JMenu("");
@@ -49,16 +52,24 @@ public class GameGUI extends JFrame implements ActionListener{
 	JCheckBoxMenuItem Mandarinchck = new JCheckBoxMenuItem("");
 	int defcolour = 1;
 	SQLHandle Sqlconnect = new SQLHandle();
+	JList<String> LeaderboardDisplay = new JList<>(Sqlconnect.sqlleaderboard());
+	JScrollPane Leaderboard = new JScrollPane(LeaderboardDisplay);
 
 	public GameGUI() {
 		// Main sets the propertites for the frame, adds elements and calls the refresh function that sets up all the default langages and fonts.
 		setTitle("Two Up");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 650, 500);
+		setBounds(100, 100, 750, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null); // Because of the language change working with a layout becomes borderline impossible. See OutcomeL
+
+		Leaderboard.setBounds(550, 350, 100, 100);
+		contentPane.add(Leaderboard);
+
+		LeaderboardL.setBounds(550, 320, 120, 30);
+		contentPane.add(LeaderboardL);
 
 		btnCoinAction.setBounds(250, 350, 100, 25);
 		btnCoinAction.addActionListener(this);
@@ -109,6 +120,9 @@ public class GameGUI extends JFrame implements ActionListener{
 
 		Highscore.setText(Current.Highscore);
 		Highscore.setFont(Current.Font);
+
+		LeaderboardL.setText(Current.LeaderboardL);
+		LeaderboardL.setFont(Current.Font);
 
 		OutcomeL.setText("");
 		OutcomeL.setFont(Current.Font);

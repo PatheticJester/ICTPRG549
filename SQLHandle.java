@@ -140,11 +140,12 @@ public class SQLHandle {
         }
     }
 
-    public static LinkedHashMap<String, Integer> sqlleaderboard(){
+    public String[] sqlleaderboard(){
         /* Creates a HashMap, A linkedHashMap and an array list. The hashmap is first used to be populated with the Username and correlating highscore.
          * The array is used next to obtain every value (score) within Leaderboard. The scorelist is then sorted into highest to lowest.
          * Then for every number (score) within scroelist and for every entry within Leader board it checks to see if the leaderboards score is
          * equal to the interger number. If it is then this Entry is placed into the Linkedhashmap along with the number (score).
+         * It then returns an object array with the entry set.
         */
         query = "SELECT [Username], [Highscore] FROM [dbo].[User] INNER JOIN [dbo].[Game] ON [User].UID=[Game].GID";
         try{
@@ -167,7 +168,12 @@ public class SQLHandle {
                     }
                 }
             }
-            return(LeaderboardSorted);
+            Object[] ObjectArray = LeaderboardSorted.entrySet().toArray();
+            String[] StringArray = new String[ObjectArray.length];
+            for(int i = 0 ; i < ObjectArray.length ; i ++){
+                StringArray[i] = ObjectArray[i].toString();
+            }
+            return(StringArray);
         } catch(SQLException f){
             System.out.println(f);
             return(null);

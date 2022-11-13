@@ -15,6 +15,7 @@ public class Lang{
     String Mandarinchck;
     String Score;
     String Highscore;
+    String LeaderboardL;
     Font Font;
 
     public void setEnglish(){
@@ -32,6 +33,7 @@ public class Lang{
         OutcomeL = new String[] {"You win!", "Draw! Spin again!", "You lose!"};
         Score = "Score:";
         Highscore = String.format("Highscore: %d", SQLHandle.sqlselectscore());
+        LeaderboardL = "Leaderboard:";
     }
 
     public void setThai(){
@@ -49,6 +51,7 @@ public class Lang{
         OutcomeL = new String[] {"คุณชนะ!", "หมุนอีกครั้ง!", "คุณแพ้!"};
         Score = "คะแนน:";
         Highscore = String.format("คะแนนสูง: %d", SQLHandle.sqlselectscore());
+        LeaderboardL = "กระดานผู้นำ:";
     }
 
     public void setMandarin(){
@@ -66,5 +69,6 @@ public class Lang{
         OutcomeL = new String[] {"你赢了！", "再次旋转！", "你输了！"};
         Score = "分数:";
         Highscore = String.format("高分: %d", SQLHandle.sqlselectscore());
+        LeaderboardL = "排行榜:";
     }
 }
