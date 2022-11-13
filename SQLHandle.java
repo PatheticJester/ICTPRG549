@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 import java.util.HashMap;
@@ -145,7 +146,12 @@ public class SQLHandle {
          * The array is used next to obtain every value (score) within Leaderboard. The scorelist is then sorted into highest to lowest.
          * Then for every number (score) within scroelist and for every entry within Leader board it checks to see if the leaderboards score is
          * equal to the interger number. If it is then this Entry is placed into the Linkedhashmap along with the number (score).
-         * It then returns an object array with the entry set.
+         * It then needs to cast the object[] to string[] for us in GameGui. It does this with a for loop. 
+         * For every obejext in object array StringArray[index of current object] is equal to current object to a string
+         * It then returns an object array with the entry set. For prosperity's sake, below is the for loop in a different format
+         * for(int i = 0; i < ObjectArray.length; i++){
+         *      StringArray[i] = ObjectArray[i].toString();
+         * }
         */
         query = "SELECT [Username], [Highscore] FROM [dbo].[User] INNER JOIN [dbo].[Game] ON [User].UID=[Game].GID";
         try{
@@ -170,8 +176,8 @@ public class SQLHandle {
             }
             Object[] ObjectArray = LeaderboardSorted.entrySet().toArray();
             String[] StringArray = new String[ObjectArray.length];
-            for(int i = 0 ; i < ObjectArray.length ; i ++){
-                StringArray[i] = ObjectArray[i].toString();
+            for(Object x : ObjectArray){
+                StringArray[Arrays.asList(ObjectArray).indexOf(x)] = x.toString();
             }
             return(StringArray);
         } catch(SQLException f){
