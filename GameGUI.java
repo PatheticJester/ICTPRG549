@@ -33,6 +33,7 @@ public class GameGUI extends JFrame implements ActionListener{
 		});
 	}
 	public JPanel contentPane;
+	public JPanel contentPane2;
 	// Giving outside access to these objects
 	int Count;
 	Lang Current = new Lang();
@@ -54,21 +55,28 @@ public class GameGUI extends JFrame implements ActionListener{
 	SQLHandle Sqlconnect = new SQLHandle();
 	JList<String> LeaderboardDisplay = new JList<>(Sqlconnect.sqlleaderboard());
 	JScrollPane Leaderboard = new JScrollPane(LeaderboardDisplay);
+	Animation coin = new Animation();
 
 	public GameGUI() {
 		// Main sets the propertites for the frame, adds elements and calls the refresh function that sets up all the default langages and fonts.
 		setTitle("Two Up");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 750, 500);
+
+		contentPane2 = new JPanel();
+		contentPane2.setBounds(150,50,300,200);
+		contentPane2.setBackground(Color.red);
+
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		contentPane.add(contentPane2);
 		contentPane.setLayout(null); // Because of the language change working with a layout becomes borderline impossible. See OutcomeL
 
-		Leaderboard.setBounds(550, 350, 100, 100);
+		Leaderboard.setBounds(550, 220, 100, 210);
 		contentPane.add(Leaderboard);
 
-		LeaderboardL.setBounds(550, 320, 120, 30);
+		LeaderboardL.setBounds(550, 190, 120, 30);
 		contentPane.add(LeaderboardL);
 
 		btnCoinAction.setBounds(250, 350, 100, 25);
@@ -78,10 +86,10 @@ public class GameGUI extends JFrame implements ActionListener{
 		Highscore.setBounds(550, 150, 150, 30);
 		contentPane.add(Highscore);
 
-		Score.setBounds(550, 250, 150, 30);
+		Score.setBounds(550, 170, 50, 30);
 		contentPane.add(Score);
 
-		ScoreNumber.setBounds(590, 250, 150, 30);
+		ScoreNumber.setBounds(590, 170, 150, 30);
 		contentPane.add(ScoreNumber);
 	
 		Coin1L.setBounds(210, 250, 150, 30);
