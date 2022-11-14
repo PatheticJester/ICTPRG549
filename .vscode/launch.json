@@ -4,57 +4,19 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        {
-            "type": "java",
-            "name": "Launch testing",
-            "request": "launch",
-            "mainClass": "testing",
-            "projectName": "ICTPRG549_646aac1"
-        },
-        {
-            "type": "java",
-            "name": "Launch jj",
-            "request": "launch",
-            "mainClass": "jj",
-            "projectName": "ICTPRG549_646aac1"
-        },
-        {
-            "type": "java",
-            "name": "Launch test",
-            "request": "launch",
-            "mainClass": "test",
-            "projectName": "ICTPRG549_646aac1",
-            "vmArgs": "--module-path \"javafx-sdk-19/lib\" --add-modules javafx.fxml,javafx.controls,javafx.graphics"
-        },
-        {
-            "type": "java",
-            "name": "Launch filetest",
-            "request": "launch",
-            "mainClass": "filetest",
-            "projectName": "ICTPRG549_646aac1"
-        },
+        
         {
             "type": "java",
             "name": "Launch Current File",
             "request": "launch",
-            "mainClass": "${file}",
-            "vmArgs": "--module-path \"javafx-sdk-19/lib\" --add-modules javafx.fxml,javafx.controls,javafx.graphics"
+            "mainClass": "${file}"
         },
         {
             "type": "java",
             "name": "Launch Main",
             "request": "launch",
             "mainClass": "Main",
-            "projectName": "ICTPRG549_646aac1",
-            "vmArgs": "--module-path \"javafx-sdk-19/lib\" --add-modules javafx.fxml,javafx.controls,javafx.graphics"
-        },
-        {
-            "type": "java",
-            "name": "Launch Timer",
-            "request": "launch",
-            "mainClass": "Animation",
-            "projectName": "ICTPRG549_646aac1",
-            "vmArgs": "--module-path \"javafx-sdk-19/lib\" --add-modules javafx.fxml,javafx.controls,javafx.graphics"
+            "projectName": "ICTPRG549_646aac1"
         }
     ]
 }

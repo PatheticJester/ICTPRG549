@@ -1,10 +1,15 @@
 // Importing packages
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Color;
+import java.util.Date;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
@@ -15,6 +20,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+
 
 public class GameGUI extends JFrame implements ActionListener{
 	static String User;
@@ -55,7 +61,10 @@ public class GameGUI extends JFrame implements ActionListener{
 	SQLHandle Sqlconnect = new SQLHandle();
 	JList<String> LeaderboardDisplay = new JList<>(Sqlconnect.sqlleaderboard());
 	JScrollPane Leaderboard = new JScrollPane(LeaderboardDisplay);
-	Animation coin = new Animation();
+	ImageIcon CoinAni1 = new ImageIcon(new ImageIcon("Animation/Coinflip.gif").getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
+	ImageIcon CoinAni2 = new ImageIcon(new ImageIcon("Animation/Coinflip.gif").getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
+	JLabel Ani1L = new JLabel(CoinAni1);
+	JLabel Ani2L = new JLabel(CoinAni2);
 
 	public GameGUI() {
 		// Main sets the propertites for the frame, adds elements and calls the refresh function that sets up all the default langages and fonts.
@@ -63,9 +72,15 @@ public class GameGUI extends JFrame implements ActionListener{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 750, 500);
 
+		Ani1L.setBounds(0, 50, 150, 100); // You can use your own values
+		Ani2L.setBounds(150, 50, 150, 100); // You can use your own values
 		contentPane2 = new JPanel();
 		contentPane2.setBounds(150,50,300,200);
-		contentPane2.setBackground(Color.red);
+		contentPane2.setLayout(null);
+		contentPane2.add(Ani1L);
+		contentPane2.add(Ani2L);
+		Ani1L.setVisible(false);
+		Ani2L.setVisible(false);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -173,8 +188,13 @@ public class GameGUI extends JFrame implements ActionListener{
 		 * It also keeps track of the score by having a constant count that increseas, gets cast to string and then displayed.
 		 */
 		Coin Coin1 = new Coin();
+		Timer timer = new Timer();
 		if(e.getSource()==btnCoinAction){
 			OutcomeL.setBounds(270, 300, 100, 30);
+			Ani1L.setVisible(true);
+			Ani2L.setVisible(true);
+			timer.schedule(exitApp, new Date(System.currentTimeMillis()+5*1000));
+			};
 			if(Coin1.coin == 2)
 			{
 				Count++;
@@ -202,7 +222,6 @@ public class GameGUI extends JFrame implements ActionListener{
 				Coin2L.setText(Current.Coin2L[2]);
 				OutcomeL.setText(Current.OutcomeL[2]);
 			}
-		}
 
 		if(e.getSource()==Englishchck){
 			// Setting the other menu options as false. Same occurs in every have language check
@@ -240,4 +259,11 @@ public class GameGUI extends JFrame implements ActionListener{
 			}
 		}
 	}
+
+	TimerTask exitApp = new TimerTask() {
+		public void run() {
+			Ani1L.setVisible(false);
+			Ani2L.setVisible(false);
+		}
+	};
 }
