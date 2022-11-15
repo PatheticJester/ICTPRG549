@@ -4,10 +4,7 @@ import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,6 +16,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
 
@@ -188,40 +186,51 @@ public class GameGUI extends JFrame implements ActionListener{
 		 * It also keeps track of the score by having a constant count that increseas, gets cast to string and then displayed.
 		 */
 		Coin Coin1 = new Coin();
-		Timer timer = new Timer();
 		if(e.getSource()==btnCoinAction){
+			btnCoinAction.setEnabled(false);
 			OutcomeL.setBounds(270, 300, 100, 30);
+			OutcomeL.setText("");
 			Ani1L.setVisible(true);
 			Ani2L.setVisible(true);
-			timer.schedule(exitApp, new Date(System.currentTimeMillis()+5*1000));
-			};
-			if(Coin1.coin == 2)
-			{
-				Count++;
-				String Score = Integer.toString(Count);
-				Coin1L.setText(Current.Coin1L[1]);
-				Coin2L.setText(Current.Coin2L[1]);
-				OutcomeL.setText(Current.OutcomeL[0]);
-				ScoreNumber.setText(Score);
-				Sqlconnect.sqlupdateuser(User, Count);
-			} else if(Coin1.coin == 1)
-			{
-				int pesudocoin = new Random().nextInt(2);
-				if(pesudocoin == 0){
-					Coin1L.setText(Current.Coin1L[1]);
-					Coin2L.setText(Current.Coin2L[2]);
-				} else {
-					Coin1L.setText(Current.Coin1L[2]);
-					Coin2L.setText(Current.Coin2L[1]);
+			ActionListener task = new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					btnCoinAction.setEnabled(true);
+					Ani1L.setVisible(false);
+					Ani2L.setVisible(false);
+					if(Coin1.coin == 2)
+					{
+						Count++;
+						String Score = Integer.toString(Count);
+						Coin1L.setText(Current.Coin1L[1]);
+						Coin2L.setText(Current.Coin2L[1]);
+						OutcomeL.setText(Current.OutcomeL[0]);
+						ScoreNumber.setText(Score);
+						Sqlconnect.sqlupdateuser(User, Count);
+					} else if(Coin1.coin == 1)
+					{
+						int pesudocoin = new Random().nextInt(2);
+						if(pesudocoin == 0){
+							Coin1L.setText(Current.Coin1L[1]);
+							Coin2L.setText(Current.Coin2L[2]);
+						} else {
+							Coin1L.setText(Current.Coin1L[2]);
+							Coin2L.setText(Current.Coin2L[1]);
+						}
+							// OutcomeL's bounds change because of the font and language change. This was a pain to get to work but with userability comes adaptability.
+							OutcomeL.setBounds(250, 300, 100, 30);
+							OutcomeL.setText(Current.OutcomeL[1]);
+					} else{
+						Coin1L.setText(Current.Coin1L[2]);
+						Coin2L.setText(Current.Coin2L[2]);
+						OutcomeL.setText(Current.OutcomeL[2]);
+					}
 				}
-				// OutcomeL's bounds change because of the font and language change. This was a pain to get to work but with userability comes adaptability.
-				OutcomeL.setBounds(250, 300, 100, 30);
-				OutcomeL.setText(Current.OutcomeL[1]);
-			} else{
-				Coin1L.setText(Current.Coin1L[2]);
-				Coin2L.setText(Current.Coin2L[2]);
-				OutcomeL.setText(Current.OutcomeL[2]);
-			}
+			};
+		Timer countdown = new Timer(1000, task);
+		countdown.setRepeats(false);
+		countdown.start();	
+		}
 
 		if(e.getSource()==Englishchck){
 			// Setting the other menu options as false. Same occurs in every have language check
@@ -259,11 +268,4 @@ public class GameGUI extends JFrame implements ActionListener{
 			}
 		}
 	}
-
-	TimerTask exitApp = new TimerTask() {
-		public void run() {
-			Ani1L.setVisible(false);
-			Ani2L.setVisible(false);
-		}
-	};
 }
