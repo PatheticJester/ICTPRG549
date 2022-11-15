@@ -259,10 +259,12 @@ public class GameGUI extends JFrame implements ActionListener{
 			switch (defcolour){
 				case 1:
 					contentPane.setBackground(Color.black);
+					contentPane2.setBackground(Color.black);
 					defcolour++;
 					break;
 				case 2:
 					contentPane.setBackground(new Color(238,238,238));
+					contentPane2.setBackground(new Color(238,238,238));
 					defcolour = 1;
 					break;
 			}

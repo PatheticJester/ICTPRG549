@@ -18,19 +18,6 @@ public class SQLHandle {
     static String query;
     static PreparedStatement pst;
     static String connectionString;
-
-
-    // Main for testing
-    /*public static void main(String[] args) {
-        try{
-            connectionString = "jdbc:sqlserver://DESKTOP-45VAQ6U:1433;DatabaseName=ICTPRG549;integratedSecurity=true;trustServerCertificate=true";
-            connection = DriverManager.getConnection(connectionString);
-            sqlleaderboard();
-        }   catch (SQLException f){
-            System.out.println("Error");
-            f.printStackTrace();
-        }
-    }*/
     
     public SQLHandle(){
         // This method connects to the sql server by creating a connectioning string then using the wonderful driver manager. If there is an error it catches it.
