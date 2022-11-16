@@ -14,6 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class SQLHandle {
+    // This constructor instalises everything that will be needed by the SQLHandle object
     static Connection connection;
     static String query;
     static PreparedStatement pst;
@@ -48,7 +49,7 @@ public class SQLHandle {
     }
 
     public boolean sqlregisteruser(String User, String Pass){
-        // Insert user into the system
+        // Insert user into the system. Note that we use excute instead of executeQuery. That's because there is no need to manipulate a resultset
         Random rand = new Random();
         int rand_int1 = rand.nextInt(1000);
         if(sqlcheckuser(User) == true){

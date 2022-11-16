@@ -20,6 +20,7 @@ public class Lang{
 
     public void setEnglish(){
         // This method sets all properties of Lang to be English
+        // At the end of each method create the highscore by formatting a string with wahtever sql.selectscore returns.
         Font = new Font("Dialog", java.awt.Font.PLAIN, 12);
         btnCoinAction = "Spin!";
         Coin1L = new String[] {"Coin 1:", "Coin 1: Heads", "Coin 1: Tails"};

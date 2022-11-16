@@ -22,7 +22,7 @@ import javax.swing.border.EmptyBorder;
 
 public class GameGUI extends JFrame implements ActionListener{
 	static String User;
-	// The main class calling an instance of frame
+	// The main class calling an instance of frame it creates a variable user which is used to identify the current user when calling the SQL database
 	public static void frame(String LoggedUser) {
 		User = LoggedUser;
 		EventQueue.invokeLater(new Runnable() {
@@ -57,8 +57,10 @@ public class GameGUI extends JFrame implements ActionListener{
 	JCheckBoxMenuItem Mandarinchck = new JCheckBoxMenuItem("");
 	int defcolour = 1;
 	SQLHandle Sqlconnect = new SQLHandle();
+	// Creating the leaderboard object and obtaining the values from the sql method
 	JList<String> LeaderboardDisplay = new JList<>(Sqlconnect.sqlleaderboard());
 	JScrollPane Leaderboard = new JScrollPane(LeaderboardDisplay);
+	// Creating animation onjects and scaling them to fit the Jpanel
 	ImageIcon CoinAni1 = new ImageIcon(new ImageIcon("Animation/Coinflip.gif").getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
 	ImageIcon CoinAni2 = new ImageIcon(new ImageIcon("Animation/Coinflip.gif").getImage().getScaledInstance(150, 100, Image.SCALE_DEFAULT));
 	JLabel Ani1L = new JLabel(CoinAni1);
@@ -66,6 +68,7 @@ public class GameGUI extends JFrame implements ActionListener{
 
 	public GameGUI() {
 		// Main sets the propertites for the frame, adds elements and calls the refresh function that sets up all the default langages and fonts.
+		// We also created two JPanels. One for the animation and the other for everything else
 		setTitle("Two Up");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 750, 500);
@@ -184,6 +187,8 @@ public class GameGUI extends JFrame implements ActionListener{
 		 * Pesudocoin is generated just to provide the illussion that the labels are changing based on the original coin determination.
 		 * If it detects the source is one of the menu buttons it calls the relevant function in class Lang and then refreshes all the elements.
 		 * It also keeps track of the score by having a constant count that increseas, gets cast to string and then displayed.
+		 * The actionlistener was the only way I was able to get the animation to play for one second without interrupting the thread. It 
+		 * also prevents the user from spanning the spin button.
 		 */
 		Coin Coin1 = new Coin();
 		if(e.getSource()==btnCoinAction){

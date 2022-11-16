@@ -1,3 +1,4 @@
+// Needed imports
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 
 
 public class Main extends JFrame implements ActionListener{
+    // The main method. It calls an instance of it's self and sets the frame object to visible
     public static void main(String[] args) {
             EventQueue.invokeLater(new Runnable() {
                 public void run() {
@@ -67,6 +69,8 @@ public class Main extends JFrame implements ActionListener{
     }
         @Override
         public void actionPerformed(ActionEvent e){
+            // This method checks the source of what button was hit. If it's a login button it calls the sql check user method.
+            // If it was register then it call the registeruser method. The username and password are both obtained through the .getText() attribute.
             String UserS = User.getText();
             String PassS = Pass.getText();
             if(e.getSource()==btnLogin){

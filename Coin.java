@@ -1,4 +1,5 @@
 // Importing packages
+// Same as it ever was
 import java.util.Random;
 
 public class Coin{
